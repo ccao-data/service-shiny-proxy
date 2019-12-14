@@ -1,8 +1,6 @@
 # This is a GitLab CI configuration to build the project as a docker image
 
-image:
-  name: docker/compose:1.24.0
-  entrypoint: ["/bin/sh", "-c"]
+image: docker:18
 
 stages:
   - build
@@ -21,30 +19,18 @@ before_script:
 build:
   stage: build
   script:
-    - docker-compose pull || true
-    - docker-compose build
-    - docker-compose push web
-    - export TAG=$CI_COMMIT_SHA
-    - docker-compose build
-    - docker-compose push web
-  
-
-
-    # fetches the latest image (not failing if image is not found)
-    #- docker pull $CI_REGISTRY_IMAGE:latest || true
-    ## builds the project, passing proxy variables, and vcs vars for LABEL
-    ## notice the cache-from, which is going to use the image we just pulled locally
-    ## the built image is tagged locally with the commit SHA, and then pushed to 
-    ## the GitLab registry
-    #- >
-      #docker build
-      #--pull
-      #--build-arg VCS_REF=$CI_COMMIT_SHA
-      #--build-arg VCS_URL=$CI_PROJECT_URL
-      #--cache-from $CI_REGISTRY_IMAGE:latest
-      #--tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-      #.
-    #- docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - >
+      docker build
+      --pull
+      --build-arg http_proxy=$http_proxy
+      --build-arg https_proxy=$https_proxy
+      --build-arg no_proxy=$no_proxy
+      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg VCS_URL=$CI_PROJECT_URL
+      --cache-from $CI_REGISTRY_IMAGE:latest
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
 # Here, the goal is to tag the "master" branch as "latest"
 Push latest:

@@ -11,8 +11,6 @@ proxy:
   - name: dan
     password: password
     groups: admins
-  - name: kyra
-    password: password
   docker:
       internal-networking: true
   specs:

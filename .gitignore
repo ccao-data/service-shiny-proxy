@@ -16,14 +16,6 @@
 
 # RStudio files
 .Rproj.user/
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
 # knitr and R markdown default cache directories
 /*_cache/
 /cache/
@@ -32,19 +24,10 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
-# Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
-rsconnect/
-
 # Other files
-/resources/*
-/code.r.old/*
-/data/*
 /code.sql/*
 /code.sas/*
 code.stata/*
-lit/*
-results/graphs/*
-results/*
 *.Rdata
 *.dta
 *.ppt

@@ -8,7 +8,16 @@ stages:
   - push
 
 before_script:
-  - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+  - > 
+    gitlab-runner register -n \
+      --url https://gitlab.com/ \
+      --registration-token $CI_JOB_TOKEN \
+      --executor docker \
+      --description "Docker Runner" \
+      --docker-image "docker:18" \
+      --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+      .
+      #- echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
 
 Build:
   stage: build

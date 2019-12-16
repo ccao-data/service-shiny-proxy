@@ -3,6 +3,7 @@ proxy:
   logo-url: https://www.cookcountyassessor.com/assets/img/CCAOLogoHouse150.png
   port: 8080
   landing-page: /app/01_shiny_app_pinval
+  container-log-path: ./container-logs
   authentication: simple
   admin-groups: admins
   users:
@@ -21,3 +22,4 @@ proxy:
     container-cmd: ["R", "-e", "shiny::runApp('/tmp/code.r/app.R')"]
     container-image: shiny_app_pinval_rstudio:latest
     container-network: shiny_server_proxynet 
+    container-env-file: /run/secrets/db_config

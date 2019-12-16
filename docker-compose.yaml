@@ -8,5 +8,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - proxynet
+    secrets:
+      - db_config
+
 networks:
   proxynet:
+
+secrets:
+  db_config:
+    file: secrets/odbc.txt

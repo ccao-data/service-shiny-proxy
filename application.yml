@@ -2,6 +2,7 @@ proxy:
   title: CCAO Shiny Application Server 
   logo-url: https://www.cookcountyassessor.com/assets/img/CCAOLogoHouse150.png
   port: 8080
+  landing-page: /app/01_shiny_app_pinval
   authentication: simple
   admin-groups: admins
   users:
@@ -14,13 +15,9 @@ proxy:
   docker:
       internal-networking: true
   specs:
-  - id: 01_hello
-    display-name: Hello Application
-    description: Application which demonstrates the basics of a Shiny app
-    container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
-    container-image: openanalytics/shinyproxy-demo
-    container-network: shiny_server_proxynet 
-  - id: 06_tabsets
-    container-cmd: ["R", "-e", "shinyproxy::run_06_tabsets()"]
-    container-image: openanalytics/shinyproxy-demo
+  - id: 01_shiny_app_pinval
+    display-name: PIN Valuation Report (ALPHA) 
+    description: Create a report on an individual PIN 
+    container-cmd: ["R", "-e", "shiny::runApp('/tmp/code.r/app.R')"]
+    container-image: shiny_app_pinval_rstudio:latest
     container-network: shiny_server_proxynet 

@@ -19,7 +19,7 @@ proxy:
   - id: 01_shiny_app_pinval
     display-name: PIN Valuation Report (ALPHA) 
     description: Create a report on an individual PIN 
-    container-cmd: ["R", "-e", "shiny::runApp('/tmp/code.r/app.R')"]
-    container-image: shiny_app_pinval_rstudio:latest
+    container-cmd: ["R", "-e", "shiny::runApp('/tmp/code.r/')"]
+    container-image: shiny_app_pinval:latest
     container-network: shiny_server_proxynet 
     container-env-file: /run/secrets/db_config

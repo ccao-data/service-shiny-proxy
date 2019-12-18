@@ -1,7 +1,11 @@
 version: '3.6'
 services:
   shinyproxy:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DATA_LOCATION: "/home/dfsnow/data"
     ports:
       - "8080:8080"
     volumes:

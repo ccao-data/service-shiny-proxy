@@ -7,12 +7,8 @@ proxy:
   authentication: simple
   admin-groups: admins
   users:
-  - name: billy
-    password: password
-    groups: admins
-  - name: dan
-    password: password
-    groups: admins
+  - name: ccaouser
+    password: datascience
   docker:
       internal-networking: true
   specs:

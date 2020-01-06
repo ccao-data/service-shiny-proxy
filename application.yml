@@ -1,14 +1,9 @@
 proxy:
-  title: CCAO Shiny Application Server 
+  title: Data Science Application Server 
   logo-url: https://www.cookcountyassessor.com/assets/img/CCAOLogoHouse150.png
   port: 8080
   landing-page: /app/01_shiny_app_pinval
-  container-log-path: ./container-logs
-  authentication: simple
-  admin-groups: admins
-  users:
-  - name: ccaouser
-    password: datascience
+  authentication: none
   docker:
       internal-networking: true
   specs:

@@ -4,14 +4,16 @@ proxy:
   port: 8080
   landing-page: /app/01_shiny_app_pinval
   authentication: none
+  heartbeat-rate: 60000
+  heartbeat-timeout: 600000
   docker:
-      internal-networking: true
+    internal-networking: true
   specs:
   - id: 01_shiny_app_pinval
     display-name: PIN Valuation Report (ALPHA) 
     description: Create a report on an individual PIN 
     container-cmd: ["R", "-e", "shiny::runApp('/opt/code.r/')"]
-    container-image: shiny_app_pinval:latest
+    container-image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_pinval:latest
     container-network: shiny_server_proxynet 
     container-env-file: /run/secrets/db_config
     container-volumes: [ "DATA_LOCATION:/opt/data/" ]

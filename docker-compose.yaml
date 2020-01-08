@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   shinyproxy:
-    image: registry.gitlab.com/ccao-data-science---modeling/shiny_server:latest
+    image: shiny_server:latest
     build: 
       context: .
       dockerfile: Dockerfile

@@ -1,5 +1,5 @@
 proxy:
-  title: Data Science Application Server 
+  title: Data Science Application Server
   logo-url: https://www.cookcountyassessor.com/assets/img/CCAOLogoHouse150.png
   port: 8080
   landing-page: /app/01_shiny_app_pinval
@@ -10,10 +10,16 @@ proxy:
     internal-networking: true
   specs:
   - id: 01_shiny_app_pinval
-    display-name: PIN Valuation Report (ALPHA) 
-    description: Create a report on an individual PIN 
+    display-name: PIN Valuation Report (ALPHA)
+    description: Create a report on an individual PIN
     container-cmd: ["R", "-e", "shiny::runApp('/opt/code.r/')"]
     container-image: shiny_app_pinval:latest
-    container-network: shiny_server_proxynet 
+    container-network: shiny_server_proxynet
     container-env-file: /run/secrets/db_config
-    container-volumes: [ "DATA_LOCATION:/opt/data/" ]
+  - id: 02_shiny_app_rpie_echo
+    display-name: RPIE Echo Report
+    description: Create a report on an individual PIN
+    container-cmd: ["R", "-e", "shiny::runApp('/opt/code.r/')"]
+    container-image: shiny_app_rpie_echo:latest
+    container-network: shiny_server_proxynet
+    container-env-file: /run/secrets/db_config

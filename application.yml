@@ -1,6 +1,6 @@
 proxy:
   title: Data Science Application Server
-  logo-url: https://www.cookcountyassessor.com/assets/img/CCAOLogoHouse150.png
+  logo-url: file:///www/logo.png
   port: 8080
   landing-page: /app/01_shiny_app_pinval
   authentication: none

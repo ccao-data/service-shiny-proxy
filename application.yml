@@ -12,14 +12,21 @@ proxy:
   - id: 01_shiny_app_pinval
     display-name: PIN Valuation Report (ALPHA)
     description: Create a report on an individual PIN
-    container-cmd: ["R", "-e", "shiny::runApp('/opt/code.r/')"]
+    container-cmd: ["R", "-e", "shiny::runApp('/opt/app.R')"]
     container-image: shiny_app_pinval:latest
     container-network: shiny_server_proxynet
     container-env-file: /run/secrets/db_config
-  - id: 02_shiny_app_rpie_echo
-    display-name: RPIE Echo Report
+  - id: 02_shiny_app_rpie
+    display-name: RPIE Report
     description: Create a report on an individual PIN
     container-cmd: ["R", "-e", "shiny::runApp('/opt/code.r/')"]
-    container-image: shiny_app_rpie_echo:latest
+    container-image: shiny_app_rpie:latest
+    container-network: shiny_server_proxynet
+    container-env-file: /run/secrets/db_config
+  - id: 03_shiny_app_condo
+    display-name: Condo Report
+    description: Create a report on an individual PIN
+    container-cmd: ["R", "-e", "shiny::runApp('/opt/code.r/')"]
+    container-image: shiny_app_condo:latest
     container-network: shiny_server_proxynet
     container-env-file: /run/secrets/db_config

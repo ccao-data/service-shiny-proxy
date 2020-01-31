@@ -1,6 +1,5 @@
 proxy:
   title: Data Science Application Server
-  logo-url: file:///www/logo.png
   port: 8080
   landing-page: /app/01_shiny_app_pinval
   authentication: none
@@ -12,7 +11,7 @@ proxy:
   - id: 01_shiny_app_pinval
     display-name: PIN Valuation Report (ALPHA)
     description: Create a report on an individual PIN
-    container-cmd: ["R", "-e", "shiny::runApp('/opt/app.R')"]
+    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: shiny_app_pinval:latest
     container-network: shiny_server_proxynet
     container-env-file: /run/secrets/db_config

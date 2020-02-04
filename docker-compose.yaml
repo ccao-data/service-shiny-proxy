@@ -19,14 +19,11 @@ services:
       - ./secrets/config.json:/config.json
     environment:
       - WATCHTOWER_INCLUDE_STOPPED=true
-      - WATCHTOWER_DEBUG=true
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_MONITOR_ONLY=true
       - WATCHTOWER_NO_RESTART=true
-      - WATCHTOWER_POLL_INTERVAL=30
+      - WATCHTOWER_POLL_INTERVAL=120
     restart: always
-    secrets:
-      - docker_config
 
 networks:
   proxynet:
@@ -34,5 +31,3 @@ networks:
 secrets:
   db_config:
     file: secrets/odbc.txt
-  docker_config:
-    file: secrets/config.json

@@ -19,6 +19,6 @@ proxy:
     display-name: RPIE Report
     description: Create a report on an individual PIN
     container-cmd: ["R", "-e", "shiny::runApp('/opt/code.r/')"]
-    container-image: shiny_app_rpie:latest
+    container-image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_rpie:latest
     container-network: shiny_server_proxynet
     container-env-file: /run/secrets/db_config

@@ -1,10 +1,8 @@
 version: '3.6'
 services:
   shinyproxy:
-    image: shiny_server:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: registry.gitlab.com/ccao-data-science---modeling/shiny_server:latest
+    container_name: shiny_server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -13,6 +11,22 @@ services:
       - proxynet
     secrets:
       - db_config
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./secrets/config.json:/config.json
+    environment:
+      - WATCHTOWER_INCLUDE_STOPPED=true
+      - WATCHTOWER_DEBUG=true
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_MONITOR_ONLY=true
+      - WATCHTOWER_NO_RESTART=true
+      - WATCHTOWER_POLL_INTERVAL=30
+    restart: always
+    secrets:
+      - docker_config
 
 networks:
   proxynet:
@@ -20,3 +34,5 @@ networks:
 secrets:
   db_config:
     file: secrets/odbc.txt
+  docker_config:
+    file: secrets/config.json

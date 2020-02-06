@@ -1,14 +1,14 @@
 
 # Data Science Application Server Backend
 
-This repository hosts the Docker and config files that run the CCAO's application server backend. We use a free, open source package called [ShinyProxy](https://www.shinyproxy.io/) to deploy containerized applications using Docker. 
+This repository hosts the Docker and config files that run the CCAO's application server backend. We use a free, open source package called [ShinyProxy](https://www.shinyproxy.io/) to deploy containerized applications using Docker.
 
 - For a brief primer on Docker and its benefits, see [here](https://medium.com/@kelvin_sp/docker-introduction-what-you-need-to-know-to-start-creating-containers-8ffaf064930a).
 - For help documentation and configuration related to ShinyProxy, see [here](https://www.shinyproxy.io/getting-started/).
 
 ## Dependencies
 
-The server depends on Docker for building and deployment and Docker Compose for configuration. Both of these must be installed on your system in order to run the server. 
+The server depends on Docker for building and deployment and Docker Compose for configuration. Both of these must be installed on your system in order to run the server.
 
 - [Docker installation instructions](https://docs.docker.com/install/)
 - [Docker Compose installation instructions](https://docs.docker.com/compose/install/)
@@ -57,10 +57,11 @@ Files in this directory have the following structure and functions:
 data/                      # External dir hosting CCAO data files, must be specified in docker-compose.yaml
 shiny_server/              # Top-level dir for hosting ShinyProxy config files
 ├ application.yml 	   # Configures the actual ShinyProxy app, which apps to launch, logins, etc.
-├ docker-compose.yaml  	   # Launches ShinyProxy with the necessary Docker config options/secrets	
+├ docker-compose.yaml  	   # Launches ShinyProxy with the necessary Docker config options/secrets
 ├ Dockerfile               # Builds the environment and container dependencies for running ShinyProxy
 ├ README.md                # This file
 └ secrets
+    ├ config.json          # Docker login credentials for watching gitlab repo for updates to master branch
     └ odbc.txt             # ODBC server credentials formatted as a connection string
 ```
 
@@ -74,7 +75,7 @@ Part 1 builds the container and environment necessary to run ShinyProxy. This in
 
 ### Part 2
 
-Part 2 specifies the actual configuration options for ShinyProxy. All ShinyProxy config is handled via editing the included `application.yml` file. ShinyProxy allows configuration of the name of the server, the apps it launches, and various login options. For a full list of ShinyProxy configuration options, see [here](https://www.shinyproxy.io/configuration/). 
+Part 2 specifies the actual configuration options for ShinyProxy. All ShinyProxy config is handled via editing the included `application.yml` file. ShinyProxy allows configuration of the name of the server, the apps it launches, and various login options. For a full list of ShinyProxy configuration options, see [here](https://www.shinyproxy.io/configuration/).
 
 ## Starting the Server
 

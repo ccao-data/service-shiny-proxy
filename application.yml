@@ -5,6 +5,7 @@ proxy:
   authentication: none
   heartbeat-rate: 60000
   heartbeat-timeout: 600000
+  usage-stats-url: http://influxdb:8086/write?db=shinyproxy_usagestats
   docker:
     internal-networking: true
   specs:
@@ -16,7 +17,7 @@ proxy:
     container-network: shiny_server_proxynet
     container-env-file: /run/secrets/db_config
   - id: 02_shiny_app_rpie
-    display-name: RPIE Report
+    display-name: RPIE Report (ALPHA)
     description: Create a report on an individual PIN
     container-cmd: ["R", "-e", "shiny::runApp('/opt/code.r/')"]
     container-image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_rpie:latest

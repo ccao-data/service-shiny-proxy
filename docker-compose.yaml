@@ -2,6 +2,7 @@ version: '3.6'
 services:
   shinyproxy:
     image: registry.gitlab.com/ccao-data-science---modeling/shiny_server:latest
+    build: .
     container_name: shiny_server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -11,6 +12,7 @@ services:
       - proxynet
     secrets:
       - db_config
+
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
@@ -25,8 +27,38 @@ services:
       - WATCHTOWER_POLL_INTERVAL=120
     restart: always
 
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    networks:
+      - proxynet
+    volumes:
+      - influxdb-data:/var/lib/influxdb
+    environment:
+      - INFLUXDB_HTTP_AUTH_ENABLED=false
+      - INFLUXDB_DB=shinyproxy_usagestats
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - proxynet
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./config/grafana:/etc/grafana
+    environment:
+      - GF_INSTALL_PLUGINS=goshposh-metaqueries-datasource
+
 networks:
   proxynet:
+
+volumes:
+  influxdb-data:
+  grafana-data:
 
 secrets:
   db_config:

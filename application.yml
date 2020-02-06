@@ -5,7 +5,6 @@ proxy:
   authentication: none
   heartbeat-rate: 60000
   heartbeat-timeout: 600000
-  usage-stats-url: http://influxdb:8086/write?db=shinyproxy_usagestats
   docker:
     internal-networking: true
   specs:

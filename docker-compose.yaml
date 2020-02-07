@@ -26,6 +26,19 @@ services:
       - WATCHTOWER_POLL_INTERVAL=120
     restart: always
 
+  shiny_app_pinval_production:
+    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_pinval:latest
+    entrypoint: ["echo", "PINVAL (Production) Loaded"]
+    restart: "no"
+  shiny_app_pinval_staging:
+    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_pinval:staging
+    entrypoint: ["echo", "PINVAL (Staging) Loaded"]
+    restart: "no"
+  shiny_app_rpie:
+    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_rpie:latest
+    entrypoint: ["echo", "RPIE App Loaded"]
+    restart: "no"
+
 networks:
   proxynet:
 

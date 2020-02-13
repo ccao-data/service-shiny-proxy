@@ -1,5 +1,6 @@
 proxy:
   title: Data Science Application Server
+  logo-url: file:///opt/shinyproxy/favicon.png 
   port: 8080
   landing-page: /app/01_shiny_app_pinval
   authentication: none

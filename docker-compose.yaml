@@ -11,7 +11,7 @@ services:
     networks:
       - proxynet
     secrets:
-      - db_config
+      - db_config_CCAODATA
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
@@ -43,5 +43,7 @@ networks:
   proxynet:
 
 secrets:
-  db_config:
-    file: secrets/odbc.txt
+  db_config_CCAODATA:
+    file: secrets/CCAODATA.txt
+  db_config_CCAOAPPSRV:
+    file: secrets/CCAOAPPSRV.txt

@@ -14,18 +14,15 @@ services:
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
-  CI_DEBUG_TRACE: "true"
 
 before_script:
   - echo $CI_REGISTRY_PASSWORD | docker login --password-stdin -u $CI_REGISTRY_USER $CI_REGISTRY
-
 
 # Goal is to build from the Dockerfile and then tag with the commit hash
 build:
   stage: build
   only:
     - master
-    - staging
     - tags
   script:
     - >
@@ -37,18 +34,6 @@ build:
       --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
       .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-
-# Here, the goal is to tag the "staging" branch as "staging"
-push staging:
-  variables:
-    GIT_STRATEGY: none
-  stage: push
-  only:
-    - staging
-  script:
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:staging
-    - docker push $CI_REGISTRY_IMAGE:staging
 
 # Here, the goal is to tag the "master" branch as "latest"
 push production:

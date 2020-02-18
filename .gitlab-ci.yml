@@ -1,4 +1,6 @@
-# This is a GitLab CI configuration to build the project as a docker image
+# This is a GitLab CI configuration to build the pinval as a docker image
+# The image is then sent to the gitlab container registry, where shiny_server
+# watches for the latest image
 
 image: docker:18
 
@@ -7,19 +9,24 @@ stages:
   - push
 
 services:
-  - docker:dind
+  - docker:18.09.7-dind
 
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
+  CI_DEBUG_TRACE: "true"
 
 before_script:
   - echo $CI_REGISTRY_PASSWORD | docker login --password-stdin -u $CI_REGISTRY_USER $CI_REGISTRY
 
+
+# Goal is to build from the Dockerfile and then tag with the commit hash
 build:
   stage: build
   only:
     - master
+    - staging
+    - tags
   script:
     - >
       docker build
@@ -31,31 +38,36 @@ build:
       .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
-# Here, the goal is to tag the "master" branch as "latest"
-push latest:
+# Here, the goal is to tag the "staging" branch as "staging"
+push staging:
   variables:
     GIT_STRATEGY: none
   stage: push
   only:
-    # Only "master" should be tagged "latest"
+    - staging
+  script:
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:staging
+    - docker push $CI_REGISTRY_IMAGE:staging
+
+# Here, the goal is to tag the "master" branch as "latest"
+push production:
+  variables:
+    GIT_STRATEGY: none
+  stage: push
+  only:
     - master
   script:
-    # Because we have no guarantee that this job will be picked up by the same runner 
-    # that built the image in the previous step, we pull it again locally
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    # Then we tag it "latest"
     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
-    # And we push it.
     - docker push $CI_REGISTRY_IMAGE:latest
 
-# Finally, the goal here is to Docker tag any Git tag
-# GitLab will start a new pipeline everytime a Git tag is created, which is pretty awesome
-push tag:
+# Here, the goal is to tag images with their respective git tags
+push tags:
   variables:
     GIT_STRATEGY: none
   stage: push
   only:
-    # We want this job to be run on tags only.
     - tags
   script:
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA

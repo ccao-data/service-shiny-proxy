@@ -59,10 +59,11 @@ shiny_server/              # Top-level dir for hosting ShinyProxy config files
 ├ application.yml 	   # Configures the actual ShinyProxy app, which apps to launch, logins, etc.
 ├ docker-compose.yaml  	   # Launches ShinyProxy with the necessary Docker config options/secrets
 ├ Dockerfile               # Builds the environment and container dependencies for running ShinyProxy
-├ README.md                # This file
-└ secrets
-    ├ config.json          # Docker login credentials for watching gitlab repo for updates to master branch
-    └ odbc.txt             # ODBC server credentials formatted as a connection string
+├ README.md                
+└ secrets                  # Folder that must be manually created after cloning, contains login credentials
+    ├ config.json          # Docker login credentials for watching gitlab repo for updates to branches
+    ├ CCAOAPPSRV.txt       # ODBC server credentials for RPIE, formatted as a connection string
+    └ CCAODATA.txt         # ODBC server credentials for CCAODATA, formatted as a connection string
 ```
 
 Configuration of the server is split into two parts:

@@ -1,7 +1,10 @@
-# This is a GitLab CI configuration to build the pinval as a docker image
-# The image is then sent to the gitlab container registry, where shiny_server
-# watches for the latest image
+# TEMPLATE GITLAB-CI FOR CCAO SHINY APPS
 
+# This is a GitLab CI config file used to build a shiny app as a docker image
+# This file defines the steps GitLab runners should take to build and
+# subsequently deploy applications
+
+# Starting with Docker as a base image, containers are constructed using DinD
 image: docker:18
 
 stages:
@@ -21,23 +24,29 @@ before_script:
 # Goal is to build from the Dockerfile and then tag with the commit hash
 build:
   stage: build
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
   only:
     - master
-    - tags
   script:
     - >
       docker build
       --pull
-      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
+      --build-arg VCS_NAME=$CI_PROJECT_NAME
       --build-arg VCS_URL=$CI_PROJECT_URL
+      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg VCS_REF_SHORT=$CI_COMMIT_SHORT_SHA
+      --build-arg VCS_VER=$CI_COMMIT_REF_NAME
       --cache-from $CI_REGISTRY_IMAGE:latest
       --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
       .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
-# Here, the goal is to tag the "master" branch as "latest"
-push production:
+# Goal is to tag the "master" branch as "latest"
+push:
   variables:
+    GIT_SUBMODULE_STRATEGY: recursive
     GIT_STRATEGY: none
   stage: push
   only:
@@ -46,15 +55,3 @@ push production:
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:latest
-
-# Here, the goal is to tag images with their respective git tags
-push tags:
-  variables:
-    GIT_STRATEGY: none
-  stage: push
-  only:
-    - tags
-  script:
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME

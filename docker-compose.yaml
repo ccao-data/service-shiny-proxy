@@ -42,7 +42,11 @@ services:
     restart: "no"
   shiny_app_township_diagnostic:
     image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_township_diagnostic:latest
-    entrypoint: ["echo", "Township Diagnostic Loaded"]
+    entrypoint: ["echo", "Township Diagnostic (Alpha) Loaded"]
+    restart: "no"
+  shiny_app_township_diagnostic_staging:
+    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_township_diagnostic:staging
+    entrypoint: ["echo", "Township Diagnostic (Alpha Staging) Loaded"]
     restart: "no"
 
 networks:

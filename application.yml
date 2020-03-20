@@ -19,7 +19,6 @@ proxy:
     display-name: PIN Valuation Report (Staging)
     description: Generate a report on an individual PIN (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
-    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_pinval:staging
     container-network: shiny_server_proxynet
     container-env-file: /run/secrets/DB_CONFIG_CCAODATA
@@ -42,5 +41,19 @@ proxy:
     description: Fetch the RPIE code for a given PIN
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_rpie:latest
+    container-network: shiny_server_proxynet
+    container-env-file: /run/secrets/DB_CONFIG_CCAOAPPSRV
+  - id: shiny_app_ic_pinval
+    display-name: IC PINVAL Report (Production)
+    description: Provides RPIE filing information for commercial PINs
+    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
+    container-image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_ic_pinval:latest
+    container-network: shiny_server_proxynet
+    container-env-file: /run/secrets/DB_CONFIG_CCAOAPPSRV
+  - id: shiny_app_ic_pinval_staging
+    display-name: IC PINVAL Report (Staging)
+    description: Provides RPIE filing information for commercial PINs
+    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
+    container-image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_ic_pinval:staging
     container-network: shiny_server_proxynet
     container-env-file: /run/secrets/DB_CONFIG_CCAOAPPSRV

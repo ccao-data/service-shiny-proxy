@@ -48,6 +48,14 @@ services:
     image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_township_diagnostic:staging
     entrypoint: ["echo", "Township Diagnostic (Alpha Staging) Loaded"]
     restart: "no"
+  shiny_app_ic_pinval:
+    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_ic_pinval:latest
+    entrypoint: ["echo", "IC PINVAL (Production) Loaded"]
+    restart: "no"
+  shiny_app_ic_pinval_staging:
+    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_ic_pinval:staging
+    entrypoint: ["echo", "IC PINVAL (Staging) Loaded"]
+    restart: "no"
 
 networks:
   proxynet:

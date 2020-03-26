@@ -86,7 +86,7 @@ push production:
   stage: push
   environment:
     name: production
-    url: http://$SHINY_SERVER_URL:$SHINY_SERVER_PORT/app/${CI_PROJECT_NAME}
+    url: http://$SHINY_SERVER_URL:$SHINY_SERVER_PORT
   only:
     - master
   script:

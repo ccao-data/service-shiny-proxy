@@ -21,7 +21,6 @@ ARG VCS_REF_SHORT
 ARG VCS_VER
 ARG VCS_ID
 ARG VCS_NAMESPACE
-ARG VCS_REGISTRY
 
 # Environmental variables that are passed to the container. These variables
 # exist inside each app and can be called from R. They are used to create a
@@ -33,8 +32,7 @@ ENV VCS_NAME=$VCS_NAME \
   VCS_REF_SHORT=$VCS_REF_SHORT \
   VCS_VER=$VCS_VER \
   VCS_ID=$VCS_ID \
-  VCS_NAMESPACE=$VCS_NAMESPACE \
-  CCAO_REGISTRY_URL=$VCS_REGISTRY/$VCS_NAMESPACE
+  VCS_NAMESPACE=$VCS_NAMESPACE 
 
 # Create labels for the container. These are standardized labels defined by
 # label-schema.org. Many applications look for these labels in order to display

@@ -28,7 +28,7 @@ The server has the following general structure:
 |  |                               |                    |      |                       |
 |  |                               +-------------------------->+   External Website    |
 |  |  ShinyProxy Docker Container  |                    |      |                       |
-|  |                               +<--------------------------+   10.124.101.3:8080   |
+|  |                               +<--------------------------+   10.124.101.1:8080   |
 |  |                               |                    |      |                       |
 |  +-------------------------------+                    |      +------+------+-----+---+
 |                           ||                          |             |      |     |
@@ -54,16 +54,16 @@ The server has the following general structure:
 Files in this directory have the following structure and functions:
 
 ```
-data/                      # External dir hosting CCAO data files, must be specified in docker-compose.yaml
-shiny_server/              # Top-level dir for hosting ShinyProxy config files
-├ application.yml 	   # Configures the actual ShinyProxy app, which apps to launch, logins, etc.
-├ docker-compose.yaml  	   # Launches ShinyProxy with the necessary Docker config options/secrets
-├ Dockerfile               # Builds the environment and container dependencies for running ShinyProxy
-├ README.md                
-└ secrets                  # Folder that must be manually created after cloning, contains login credentials
-    ├ config.json          # Docker login credentials for watching gitlab repo for updates to branches
-    ├ CCAOAPPSRV.txt       # ODBC server credentials for RPIE, formatted as a connection string
-    └ CCAODATA.txt         # ODBC server credentials for CCAODATA, formatted as a connection string
+shiny_server/         # Top-level dir for hosting ShinyProxy config files
+├ application.yml     # Configures the actual ShinyProxy app, which apps to launch, logins, etc.
+├ docker-compose.yaml # Launches ShinyProxy with the necessary Docker config options/secrets
+├ Dockerfile          # Builds the environment and container dependencies for running ShinyProxy
+├ .env                # File containing environmental variables used in docker-compose.yaml
+├ README.md
+└ secrets             # Folder that must be manually created after cloning, contains login credentials
+    ├ config.json     # Docker login credentials for watching GitLab repo for updates to branches
+    ├ CCAOAPPSRV.txt  # ODBC server credentials for RPIE, formatted as a connection string
+    └ CCAODATA.txt    # ODBC server credentials for CCAODATA, formatted as a connection string
 ```
 
 Configuration of the server is split into two parts:
@@ -72,11 +72,9 @@ Configuration of the server is split into two parts:
 
 Part 1 builds the container and environment necessary to run ShinyProxy. This includes a `Dockerfile`, which downloads the dependencies and image needed to run ShinyProxy, and `docker-compose.yaml` which specifies the ports, networks, sockets, secrets, and directories necessary to connect everything together.
 
-`docker-compose.yaml` contains two lines which may need to be edited, depending on your setup. The first, the `DATA_LOCATION:` build arg, specifies the path to your data directory containing CCAO .RData and shapefiles. The second, the file location of `odbc.txt`, specifies the location of a text file containing an MS SQL connection string needed to run database-dependent applications.
-
 ### Part 2
 
-Part 2 specifies the actual configuration options for ShinyProxy. All ShinyProxy config is handled via editing the included `application.yml` file. ShinyProxy allows configuration of the name of the server, the apps it launches, and various login options. For a full list of ShinyProxy configuration options, see [here](https://www.shinyproxy.io/configuration/).
+Part 2 specifies the actual configuration options for ShinyProxy. All ShinyProxy configuration is handled via editing the included `application.yml` file. ShinyProxy allows configuration of the name of the server, the apps it launches, and various login options. For a full list of ShinyProxy configuration options, see [here](https://www.shinyproxy.io/configuration/).
 
 ## Starting the Server
 
@@ -85,3 +83,7 @@ To run the server, simply run the Docker Compose command inside of this reposito
 ```
 docker-compose up -d
 ```
+
+The `-d` flag runs Docker Compose in detached mode, meaning you do not have to keep your SSH session open in order for the server to continue running.
+
+The URL of the app launcher will be the IP address of the server with port 8080 appended. For example, if the server IP is 192.168.1.12, then ShinyProxy's IP will be 192.168.1.12:8080.

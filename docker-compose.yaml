@@ -2,7 +2,7 @@ version: '3.6'
 services:
   shinyproxy:
     build: .
-    image: registry.gitlab.com/ccao-data-science---modeling/shiny_server:latest
+    image: ${CCAO_REGISTRY_URL}/shiny_server:latest
     container_name: shiny_server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -13,6 +13,8 @@ services:
     secrets:
       - DB_CONFIG_CCAODATA
       - DB_CONFIG_CCAOAPPSRV
+    environment:
+      - CCAO_REGISTRY_URL
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
@@ -29,31 +31,35 @@ services:
 
   # Fake app slugs to ensure that shinyproxy always has an image to run
   shiny_app_pinval_production:
-    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_pinval:latest
+    image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:latest
     entrypoint: ["echo", "PINVAL (Production) Loaded"]
     restart: "no"
   shiny_app_rpie:
-    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_rpie:latest
+    image: ${CCAO_REGISTRY_URL}/shiny_app_rpie:latest
     entrypoint: ["echo", "RPIE App Loaded"]
     restart: "no"
   shiny_app_pinval_staging:
-    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_pinval:staging
+    image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:staging
     entrypoint: ["echo", "PINVAL (Staging) Loaded"]
     restart: "no"
   shiny_app_township_diagnostic:
-    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_township_diagnostic:latest
+    image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:latest
     entrypoint: ["echo", "Township Diagnostic (Alpha) Loaded"]
     restart: "no"
   shiny_app_township_diagnostic_staging:
-    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_township_diagnostic:staging
+    image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:staging
     entrypoint: ["echo", "Township Diagnostic (Alpha Staging) Loaded"]
     restart: "no"
   shiny_app_ic_pinval:
-    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_ic_pinval:latest
+    image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:latest
     entrypoint: ["echo", "IC PINVAL (Production) Loaded"]
     restart: "no"
   shiny_app_ic_pinval_staging:
-    image: registry.gitlab.com/ccao-data-science---modeling/shiny_app_ic_pinval:staging
+    image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:staging
+    entrypoint: ["echo", "IC PINVAL (Staging) Loaded"]
+    restart: "no"
+  shiny_app_template:
+    image: ${CCAO_REGISTRY_URL}/shiny_app_template:latest
     entrypoint: ["echo", "IC PINVAL (Staging) Loaded"]
     restart: "no"
 

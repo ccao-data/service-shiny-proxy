@@ -3,55 +3,95 @@
 # This is a GitLab CI config file used to build a shiny app as a docker image
 # This file defines the steps GitLab runners should take to build and
 # subsequently deploy applications
+# This template file is portable to any CCAO shiny app with no modification.
 
-# Starting with Docker as a base image, containers are constructed using DinD
-image: docker:18
+# It completes the following two steps:
+# 1) BUILD. The image is built, labelled, and pushed to GitLab's registry
+# 2) TAGGING/PUSH. The image that was built is pulled from the registry,
+# tagged, and then pushed back to the registry
+
+# Starting with Docker as a base image, containers are constructed using
+# Docker in Docker, see the documentation for this approach here:
+# https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
+image: docker:19.03.1
 
 stages:
   - build
   - push
 
 services:
-  - docker:18.09.7-dind
+  - docker:19.03.1-dind
 
 variables:
-  DOCKER_HOST: tcp://docker:2375
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_DRIVER: overlay2
 
 before_script:
   - echo $CI_REGISTRY_PASSWORD | docker login --password-stdin -u $CI_REGISTRY_USER $CI_REGISTRY
 
+
+### BUILD ###
+
 # Goal is to build from the Dockerfile and then tag with the commit hash
+# Note that this stage only runs when commits are to staging or master or
+# when a new git tag is created. GitLab variables are passed into the container
+# so we can use them inside the application (for example, to show version num.)
 build:
   stage: build
-  variables:
-    GIT_SUBMODULE_STRATEGY: recursive
   only:
     - master
+    - staging
+    - tags
   script:
+    - docker pull $CI_REGISTRY_IMAGE:build-cache || true
     - >
       docker build
       --pull
+      --cache-from $CI_REGISTRY_IMAGE:build-cache
+      --tag $CI_REGISTRY_IMAGE:build-cache
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
       --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
       --build-arg VCS_NAME=$CI_PROJECT_NAME
       --build-arg VCS_URL=$CI_PROJECT_URL
       --build-arg VCS_REF=$CI_COMMIT_SHA
       --build-arg VCS_REF_SHORT=$CI_COMMIT_SHORT_SHA
       --build-arg VCS_VER=$CI_COMMIT_REF_NAME
-      --cache-from $CI_REGISTRY_IMAGE:latest
-      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      --build-arg VCS_ID=$CI_PROJECT_ID
+      --build-arg VCS_NAMESPACE=$CI_PROJECT_NAMESPACE
+      --build-arg VCS_REGISTRY=$CI_REGISTRY
       .
+    - docker push $CI_REGISTRY_IMAGE:build-cache
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
-# Goal is to tag the "master" branch as "latest"
-push:
+
+### PUSH ###
+
+# Goal is to pull the container that we just pushed to the registry, tag it
+# with either latest, staging, or the git tag, and then push it back to the
+# container registry. We pull first because we have no guarentee that the same
+# runner will pick up both the build stage and this push stage
+# CCAO uses 3 major sets of container tags:
+# 1) master branch = latest. This is used to denote the production version of
+# the application
+# 2) staging branch = staging. This is used for testing. Major changes are
+# pushed here before begin pushed to latest
+# 3) git tags = specific version. If a commit is tagged (with something like
+# a release #) this will be reflected as a Docker tag
+
+# Here, the goal is to tag the "master" branch as "latest"
+push production:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
     GIT_STRATEGY: none
   stage: push
+  environment:
+    name: production
+    url: http://$SHINY_SERVER_URL:$SHINY_SERVER_PORT/app/${CI_PROJECT_NAME}
   only:
     - master
   script:
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:latest
+

@@ -54,6 +54,14 @@ services:
     image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:staging
     entrypoint: ["echo", "IC PINVAL (Staging) Loaded"]
     restart: "no"
+  data_integrity_report:
+    image: ${CCAO_REGISTRY_URL}/data_integrity_report:latest
+    entrypoint: ["echo", "Data Integrity Report (Production) Loaded"]
+    restart: "no"
+  data_integrity_report_staging:
+    image: ${CCAO_REGISTRY_URL}/data_integrity_report:staging
+    entrypoint: ["echo", "Data Integrity Report (Staging) Loaded"]
+    restart: "no"
   shiny_app_rpie:
     image: ${CCAO_REGISTRY_URL}/shiny_app_rpie:latest
     entrypoint: ["echo", "RPIE App Loaded"]

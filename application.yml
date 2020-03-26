@@ -57,6 +57,22 @@ proxy:
     container-network: shiny_server_proxynet
     container-env-file: /run/secrets/DB_CONFIG_CCAOAPPSRV
 
+    # Configuration for data integrity report
+  - id: data_integrity_report
+    display-name: Data Integrity Report (Production)
+    description: Create a report that checks for data integrity issues (production version)
+    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
+    container-image: ${CCAO_REGISTRY_URL}/data_integrity_report:latest
+    container-network: shiny_server_proxynet
+    container-env-file: /run/secrets/DB_CONFIG_CCAODATA
+  - id: data_integrity_report_staging
+    display-name: Data Integrity Report (Production)
+    description: Create a report that checks for data integrity issues (testing version)
+    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
+    container-image: ${CCAO_REGISTRY_URL}/data_integrity_report:staging
+    container-network: shiny_server_proxynet
+    container-env-file: /run/secrets/DB_CONFIG_CCAODATA
+
   - id: shiny_app_rpie
     display-name: RPIE Report (Alpha)
     description: Fetch the RPIE code for a given PIN

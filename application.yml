@@ -66,7 +66,7 @@ proxy:
     container-network: shiny_server_proxynet
     container-env-file: /run/secrets/DB_CONFIG_CCAODATA
   - id: data_integrity_report_staging
-    display-name: Data Integrity Report (Production)
+    display-name: Data Integrity Report (Staging)
     description: Create a report that checks for data integrity issues (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/data_integrity_report:staging

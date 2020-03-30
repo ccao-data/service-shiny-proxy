@@ -11,8 +11,7 @@ services:
     networks:
       - proxynet
     secrets:
-      - DB_CONFIG_CCAODATA
-      - DB_CONFIG_CCAOAPPSRV
+      - DB_CONFIG
     environment:
       - CCAO_REGISTRY_URL
   watchtower:
@@ -67,11 +66,15 @@ services:
     entrypoint: ["echo", "RPIE App Loaded"]
     restart: "no"
 
+# Define network to be shared between containers
+# Subnet is changed so as not to conflict with the CCAO default network
 networks:
   proxynet:
+    ipam:
+      config:
+        - subnet: 192.27.0.0/16
 
+# Database credential files that get shared to individual containers
 secrets:
-  DB_CONFIG_CCAODATA:
-    file: secrets/CCAODATA.txt
-  DB_CONFIG_CCAOAPPSRV:
-    file: secrets/CCAOAPPSRV.txt
+  DB_CONFIG:
+    file: secrets/DB_CONFIG.txt

@@ -16,14 +16,14 @@ proxy:
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:latest
     container-network: shiny_server_proxynet
-    container-env-file: /run/secrets/DB_CONFIG_CCAODATA
+    container-env-file: /run/secrets/DB_CONFIG
   - id: shiny_app_pinval_staging
     display-name: PIN Valuation Report (Staging)
     description: Generate a report on an individual PIN (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:staging
     container-network: shiny_server_proxynet
-    container-env-file: /run/secrets/DB_CONFIG_CCAODATA
+    container-env-file: /run/secrets/DB_CONFIG
 
     # Configuration for township diagnostic
   - id: shiny_app_township_diagnostic
@@ -32,14 +32,14 @@ proxy:
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:latest
     container-network: shiny_server_proxynet
-    container-env-file: /run/secrets/DB_CONFIG_CCAODATA
+    container-env-file: /run/secrets/DB_CONFIG
   - id: shiny_app_township_diagnostic_staging
     display-name: Township Diagnostic (Staging)
     description: Create a report on a township (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:staging
     container-network: shiny_server_proxynet
-    container-env-file: /run/secrets/DB_CONFIG_CCAODATA
+    container-env-file: /run/secrets/DB_CONFIG
 
     # Configuration for IC version of PINVAL
   - id: shiny_app_ic_pinval
@@ -48,14 +48,14 @@ proxy:
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:latest
     container-network: shiny_server_proxynet
-    container-env-file: /run/secrets/DB_CONFIG_CCAOAPPSRV
+    container-env-file: /run/secrets/DB_CONFIG
   - id: shiny_app_ic_pinval_staging
     display-name: IC PINVAL Report (Staging)
     description: Provides RPIE filing information for IC PINs (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:staging
     container-network: shiny_server_proxynet
-    container-env-file: /run/secrets/DB_CONFIG_CCAOAPPSRV
+    container-env-file: /run/secrets/DB_CONFIG
 
     # Configuration for data integrity report
   - id: data_integrity_report
@@ -64,19 +64,20 @@ proxy:
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/data_integrity_report:latest
     container-network: shiny_server_proxynet
-    container-env-file: /run/secrets/DB_CONFIG_CCAODATA
+    container-env-file: /run/secrets/DB_CONFIG
   - id: data_integrity_report_staging
     display-name: Data Integrity Report (Staging)
     description: Create a report that checks for data integrity issues (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/data_integrity_report:staging
     container-network: shiny_server_proxynet
-    container-env-file: /run/secrets/DB_CONFIG_CCAODATA
+    container-env-file: /run/secrets/DB_CONFIG
 
+    # Configuration for RPIE app
   - id: shiny_app_rpie
     display-name: RPIE Report (Alpha)
     description: Fetch the RPIE code for a given PIN
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_rpie:latest
     container-network: shiny_server_proxynet
-    container-env-file: /run/secrets/DB_CONFIG_CCAOAPPSRV
+    container-env-file: /run/secrets/DB_CONFIG

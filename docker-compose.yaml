@@ -10,6 +10,7 @@ services:
       - "8080:8080"
     networks:
       - proxynet
+      - shiny_monitor_net
     secrets:
       - DB_CONFIG
     environment:
@@ -68,11 +69,16 @@ services:
 
 # Define network to be shared between containers
 # Subnet is changed so as not to conflict with the CCAO default network
+# shiny_monitor_net is imported from the shiny_monitor app. It connects to that
+# app's postgres DB for the purpose of tracking entered PINs
 networks:
   proxynet:
     ipam:
       config:
         - subnet: 192.27.0.0/16
+    name: shiny_server_net
+  shiny_monitor_net:
+    external: true
 
 # Database credential files that get shared to individual containers
 secrets:

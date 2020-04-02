@@ -2,49 +2,62 @@ proxy:
   title: Data Science Application Server
   logo-url: file:///opt/shinyproxy/favicon.png
   port: 8080
-  authentication: none
+  authentication: ldap
   heartbeat-rate: 60000
   heartbeat-timeout: 600000
+  admin-groups: DATASCIENCEGROUP
   docker:
     internal-networking: true
-  specs:
 
+  # LDAP authentication for CCAO AD servers
+  ldap:
+    url: ldaps://CCAODC02.ccao.local:3269/dc=ccao,dc=local
+    manager-dn: CN=${LDAPS_USER},OU=CCAO Employees,DC=ccao,DC=local
+    manager-password: ${LDAPS_PASSWORD}
+    user-search-base: OU=CCAO Employees
+    user-search-filter: (sAMAccountName={0})
+    group-search-base: CN=Users
+    group-search-filter: (member={0})
+
+  specs:
     # Configuration for PINVAL
   - id: shiny_app_pinval
-    display-name: PIN Valuation Report (Production)
-    description: Generate a report on an individual PIN (production version)
+    display-name: PIN Valuation Report (PINVAL)
+    description: Generate a report on the valuation of an individual PIN
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:latest
     container-network: shiny_monitor_net
     container-env-file: /run/secrets/DB_CONFIG
   - id: shiny_app_pinval_staging
-    display-name: PIN Valuation Report (Staging)
-    description: Generate a report on an individual PIN (testing version)
+    display-name: PIN Valuation Report (PINVAL) (Staging)
+    description: Generate a report on the valuation of an individual PIN (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:staging
     container-network: shiny_monitor_net
     container-env-file: /run/secrets/DB_CONFIG
+    access-groups: DATASCIENCEGROUP
 
     # Configuration for township diagnostic
   - id: shiny_app_township_diagnostic
-    display-name: Township Diagnostic (Production)
-    description: Create a report on a township (production version)
+    display-name: Township Diagnostic Report
+    description: Create a report on the valuation of a township
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:latest
     container-network: shiny_server_net
     container-env-file: /run/secrets/DB_CONFIG
   - id: shiny_app_township_diagnostic_staging
-    display-name: Township Diagnostic (Staging)
-    description: Create a report on a township (testing version)
+    display-name: Township Diagnostic Report (Staging)
+    description: Create a report on the valuation of a township (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:staging
     container-network: shiny_server_net
     container-env-file: /run/secrets/DB_CONFIG
+    access-groups: DATASCIENCEGROUP
 
     # Configuration for IC version of PINVAL
   - id: shiny_app_ic_pinval
-    display-name: IC PINVAL Report (Production)
-    description: Provides RPIE filing information for IC PINs (production version)
+    display-name: IC PINVAL Report
+    description: Provides RPIE filing information for IC PINs
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:latest
     container-network: shiny_server_net
@@ -56,11 +69,12 @@ proxy:
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:staging
     container-network: shiny_server_net
     container-env-file: /run/secrets/DB_CONFIG
+    access-groups: DATASCIENCEGROUP
 
     # Configuration for data integrity report
   - id: data_integrity_report
-    display-name: Data Integrity Report (Production)
-    description: Create a report that checks for data integrity issues (production version)
+    display-name: Data Integrity Report
+    description: Create a report that checks for data integrity issues
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/data_integrity_report:latest
     container-network: shiny_server_net
@@ -72,6 +86,7 @@ proxy:
     container-image: ${CCAO_REGISTRY_URL}/data_integrity_report:staging
     container-network: shiny_server_net
     container-env-file: /run/secrets/DB_CONFIG
+    access-groups: DATASCIENCEGROUP
 
     # Configuration for RPIE app
   - id: shiny_app_rpie

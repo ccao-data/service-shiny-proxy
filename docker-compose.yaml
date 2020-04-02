@@ -6,6 +6,7 @@ services:
     container_name: shiny_server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./secrets/cert:/cert
     ports:
       - "8080:8080"
     networks:
@@ -15,6 +16,13 @@ services:
       - DB_CONFIG
     environment:
       - CCAO_REGISTRY_URL
+      - LDAPS_USER
+      - LDAPS_PASSWORD
+    command: [
+      "java",
+      "-Djavax.net.ssl.trustStore=/cert",
+      "-Djavax.net.ssl.trustStorePassword=${JAVA_TRUST_STORE_PASSWORD}",
+      "-jar", "/opt/shinyproxy/shinyproxy.jar"]
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower

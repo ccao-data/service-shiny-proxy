@@ -1,28 +1,27 @@
 version: '3.6'
 services:
+
   shinyproxy:
     build: .
     image: ${CCAO_REGISTRY_URL}/shiny_server:latest
     container_name: shiny_server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./secrets/cert:/cert
     ports:
       - "8080:8080"
     networks:
       - proxynet
       - shiny_monitor_net
-    secrets:
-      - DB_CONFIG
+    # Environmental variables are loaded from .env file
     environment:
       - CCAO_REGISTRY_URL
       - LDAPS_USER
       - LDAPS_PASSWORD
-    command: [
-      "java",
-      "-Djavax.net.ssl.trustStore=/cert",
-      "-Djavax.net.ssl.trustStorePassword=${JAVA_TRUST_STORE_PASSWORD}",
-      "-jar", "/opt/shinyproxy/shinyproxy.jar"]
+      - JAVA_TRUST_STORE_PASSWORD
+    secrets:
+      - DB_CONFIG
+      - DC_CERT
+
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
@@ -91,4 +90,6 @@ networks:
 # Database credential files that get shared to individual containers
 secrets:
   DB_CONFIG:
-    file: secrets/DB_CONFIG.txt
+    file: secrets/DB_CONFIG
+  DC_CERT:
+    file: secrets/DC_CERT

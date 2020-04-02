@@ -1,12 +1,18 @@
 # Minimal dockerfile for running shinyproxy JAR
 FROM openjdk:8-jre
-WORKDIR /opt/shinyproxy/
-CMD ["java", "-jar", "/opt/shinyproxy/shinyproxy.jar"]
 
-RUN mkdir -p /opt/shinyproxy/
-RUN wget https://www.shinyproxy.io/downloads/shinyproxy-2.3.0.jar -O /opt/shinyproxy/shinyproxy.jar
-COPY application.yml /opt/shinyproxy/application.yml
-COPY favicon.png /opt/shinyproxy/favicon.png
+# Set working directory for the entire application
+ENV WORKDIR=/opt/shinyproxy
+RUN mkdir -p ${WORKDIR}
+WORKDIR ${WORKDIR}
+ENTRYPOINT "${WORKDIR}/entrypoint.sh"
+
+# Download the shinyproxy JAR file
+RUN wget https://www.shinyproxy.io/downloads/shinyproxy-2.3.0.jar -O ${WORKDIR}/shinyproxy.jar
+
+# Copy app code into the working dir
+COPY . ${WORKDIR}
+
 
 ### LABELLING ###
 
@@ -32,7 +38,7 @@ ENV VCS_NAME=$VCS_NAME \
   VCS_REF_SHORT=$VCS_REF_SHORT \
   VCS_VER=$VCS_VER \
   VCS_ID=$VCS_ID \
-  VCS_NAMESPACE=$VCS_NAMESPACE 
+  VCS_NAMESPACE=$VCS_NAMESPACE
 
 # Create labels for the container. These are standardized labels defined by
 # label-schema.org. Many applications look for these labels in order to display

@@ -1,6 +1,6 @@
 proxy:
   title: Data Science Application Server
-  logo-url: file:///opt/shinyproxy/favicon.png
+  logo-url: file:///${WORKDIR}/favicon.png
   port: 8080
   authentication: ldap
   heartbeat-rate: 60000

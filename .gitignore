@@ -34,3 +34,4 @@ code.stata/*
 *.pptx
 
 secrets/
+.env

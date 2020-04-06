@@ -76,14 +76,14 @@ proxy:
     display-name: Data Integrity Report
     description: Create a report that checks for data integrity issues
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
-    container-image: ${CCAO_REGISTRY_URL}/data_integrity_report:latest
+    container-image: ${CCAO_REGISTRY_URL}/app_data_integrity_report:latest
     container-network: shiny_server_net
     container-env-file: /run/secrets/DB_CONFIG
   - id: data_integrity_report_staging
     display-name: Data Integrity Report (Staging)
     description: Create a report that checks for data integrity issues (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
-    container-image: ${CCAO_REGISTRY_URL}/data_integrity_report:staging
+    container-image: ${CCAO_REGISTRY_URL}/app_data_integrity_report:staging
     container-network: shiny_server_net
     container-env-file: /run/secrets/DB_CONFIG
     access-groups: DATASCIENCEGROUP

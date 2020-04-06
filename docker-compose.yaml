@@ -28,6 +28,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./secrets/config.json:/config.json
+    networks:
+      - proxynet
     environment:
       - WATCHTOWER_INCLUDE_STOPPED=true
       - WATCHTOWER_CLEANUP=true
@@ -40,38 +42,56 @@ services:
   shiny_app_pinval_production:
     image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:latest
     entrypoint: ["echo", "PINVAL (Production) Loaded"]
+    networks:
+      - proxynet
     restart: "no"
   shiny_app_pinval_staging:
     image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:staging
     entrypoint: ["echo", "PINVAL (Staging) Loaded"]
+    networks:
+      - proxynet
     restart: "no"
   shiny_app_township_diagnostic:
     image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:latest
     entrypoint: ["echo", "Township Diagnostic (Alpha) Loaded"]
+    networks:
+      - proxynet
     restart: "no"
   shiny_app_township_diagnostic_staging:
     image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:staging
     entrypoint: ["echo", "Township Diagnostic (Alpha Staging) Loaded"]
+    networks:
+      - proxynet
     restart: "no"
   shiny_app_ic_pinval:
     image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:latest
     entrypoint: ["echo", "IC PINVAL (Production) Loaded"]
+    networks:
+      - proxynet
     restart: "no"
   shiny_app_ic_pinval_staging:
     image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:staging
     entrypoint: ["echo", "IC PINVAL (Staging) Loaded"]
+    networks:
+      - proxynet
     restart: "no"
-  data_integrity_report:
-    image: ${CCAO_REGISTRY_URL}/data_integrity_report:latest
+  app_data_integrity_report:
+    image: ${CCAO_REGISTRY_URL}/app_data_integrity_report:latest
     entrypoint: ["echo", "Data Integrity Report (Production) Loaded"]
+    networks:
+      - proxynet
     restart: "no"
-  data_integrity_report_staging:
-    image: ${CCAO_REGISTRY_URL}/data_integrity_report:staging
+  app_data_integrity_report_staging:
+    image: ${CCAO_REGISTRY_URL}/app_data_integrity_report:staging
     entrypoint: ["echo", "Data Integrity Report (Staging) Loaded"]
+    networks:
+      - proxynet
     restart: "no"
   shiny_app_rpie:
     image: ${CCAO_REGISTRY_URL}/shiny_app_rpie:latest
     entrypoint: ["echo", "RPIE App Loaded"]
+    networks:
+      - proxynet
     restart: "no"
 
 # Define network to be shared between containers

@@ -1,6 +1,17 @@
 version: '3.6'
+
+# x-default defines a template set of config options that are used wherever it
+# is applied with <<: *default
+x-default: &default
+  entrypoint: ["echo", "App Loaded"]
+  networks:
+    - proxynet
+  restart: "no"
+
+# Define the main services: shinyproxy and watchtower
 services:
 
+  # Shinyproxy handles the launching of containers
   shinyproxy:
     build: .
     image: ${CCAO_REGISTRY_URL}/shiny_server:latest
@@ -22,8 +33,7 @@ services:
       - DB_CONFIG
       - DC_CERT
 
-  # Watchtower will constantly scan CCAO registry and pull new images when
-  # found
+  # Watchtower constantly scans CCAO registry and pull new images when found
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
@@ -43,11 +53,6 @@ services:
 
   # Fake app slugs to ensure that shinyproxy always has an image to run
   # x-default defines properties that are copied to each slug
-  x-default: &default
-    entrypoint: ["echo", "App Loaded"]
-    networks:
-      - proxynet
-    restart: "no"
   shiny_app_pinval_production:
     <<: *default
     image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:latest

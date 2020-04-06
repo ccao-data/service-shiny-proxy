@@ -22,6 +22,8 @@ services:
       - DB_CONFIG
       - DC_CERT
 
+  # Watchtower will constantly scan CCAO registry and pull new images when
+  # found
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
@@ -38,61 +40,41 @@ services:
       - WATCHTOWER_POLL_INTERVAL=120
     restart: always
 
+
   # Fake app slugs to ensure that shinyproxy always has an image to run
+  # x-default defines properties that are copied to each slug
+  x-default: &default
+    entrypoint: ["echo", "App Loaded"]
+    networks:
+      - proxynet
+    restart: "no"
   shiny_app_pinval_production:
+    <<: *default
     image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:latest
-    entrypoint: ["echo", "PINVAL (Production) Loaded"]
-    networks:
-      - proxynet
-    restart: "no"
   shiny_app_pinval_staging:
+    <<: *default
     image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:staging
-    entrypoint: ["echo", "PINVAL (Staging) Loaded"]
-    networks:
-      - proxynet
-    restart: "no"
   shiny_app_township_diagnostic:
+    <<: *default
     image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:latest
-    entrypoint: ["echo", "Township Diagnostic (Alpha) Loaded"]
-    networks:
-      - proxynet
-    restart: "no"
   shiny_app_township_diagnostic_staging:
+    <<: *default
     image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:staging
-    entrypoint: ["echo", "Township Diagnostic (Alpha Staging) Loaded"]
-    networks:
-      - proxynet
-    restart: "no"
   shiny_app_ic_pinval:
+    <<: *default
     image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:latest
-    entrypoint: ["echo", "IC PINVAL (Production) Loaded"]
-    networks:
-      - proxynet
-    restart: "no"
   shiny_app_ic_pinval_staging:
+    <<: *default
     image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:staging
-    entrypoint: ["echo", "IC PINVAL (Staging) Loaded"]
-    networks:
-      - proxynet
-    restart: "no"
   app_data_integrity_report:
+    <<: *default
     image: ${CCAO_REGISTRY_URL}/app_data_integrity_report:latest
-    entrypoint: ["echo", "Data Integrity Report (Production) Loaded"]
-    networks:
-      - proxynet
-    restart: "no"
   app_data_integrity_report_staging:
+    <<: *default
     image: ${CCAO_REGISTRY_URL}/app_data_integrity_report:staging
-    entrypoint: ["echo", "Data Integrity Report (Staging) Loaded"]
-    networks:
-      - proxynet
-    restart: "no"
   shiny_app_rpie:
+    <<: *default
     image: ${CCAO_REGISTRY_URL}/shiny_app_rpie:latest
-    entrypoint: ["echo", "RPIE App Loaded"]
-    networks:
-      - proxynet
-    restart: "no"
 
 # Define network to be shared between containers
 # Subnet is changed so as not to conflict with the CCAO default network

@@ -33,20 +33,20 @@ ARG VCS_NAMESPACE
 # version number in the application UI as well as link to the GitLab
 # Service Desk
 ENV VCS_NAME=$VCS_NAME \
-  VCS_URL=$VCS_URL \
-  VCS_REF=$VCS_REF \
-  VCS_REF_SHORT=$VCS_REF_SHORT \
-  VCS_VER=$VCS_VER \
-  VCS_ID=$VCS_ID \
-  VCS_NAMESPACE=$VCS_NAMESPACE
+    VCS_URL=$VCS_URL \
+    VCS_REF=$VCS_REF \
+    VCS_REF_SHORT=$VCS_REF_SHORT \
+    VCS_VER=$VCS_VER \
+    VCS_ID=$VCS_ID \
+    VCS_NAMESPACE=$VCS_NAMESPACE
 
 # Create labels for the container. These are standardized labels defined by
 # label-schema.org. Many applications look for these labels in order to display
 # information about a container
 LABEL maintainer "Dan Snow <dsnow@cookcountyassessor.com>" \
-  org.label-schema.build-date=$BUILD_DATE \
-  org.label-schema.name=$VCS_NAME \
-  org.label-schema.vcs-url=$VCS_URL \
-  org.label-schema.vcs-ref=$VCS_REF \
-  org.label-schema.version=$VCS_VER \
-  org.label-schema.schema-version="1.0.0-rc1"
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name=$VCS_NAME \
+      org.label-schema.vcs-url=$VCS_URL \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.version=$VCS_VER \
+      org.label-schema.schema-version="1.0.0-rc1"

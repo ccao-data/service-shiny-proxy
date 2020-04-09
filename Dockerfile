@@ -45,9 +45,8 @@ ENV VCS_NAME=$VCS_NAME \
 # information about a container
 LABEL maintainer "Dan Snow <dsnow@cookcountyassessor.com>"
 LABEL com.centurylinklabs.watchtower.enable="true"
-LABEL org.label-schema.build-date=$BUILD_DATE
-LABEL org.label-schema.name=$VCS_NAME
-LABEL org.label-schema.vcs-url=$VCS_URL
-LABEL org.label-schema.vcs-ref=$VCS_REF
-LABEL org.label-schema.version=$VCS_VER
-LABEL org.label-schema.schema-version="1.0.0-rc1"
+LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.title=$VCS_NAME
+LABEL org.opencontainers.image.source=$VCS_URL
+LABEL org.opencontainers.image.revision=$VCS_REF
+LABEL org.opencontainers.image.version=$VCS_VER

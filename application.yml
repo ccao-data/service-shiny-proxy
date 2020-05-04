@@ -26,14 +26,14 @@ proxy:
 
   specs:
     # Configuration for PINVAL
-  - id: shiny_app_pinval
+  - id: pinval
     display-name: PIN Valuation Report (PINVAL)
     description: Generate a report on the valuation of an individual PIN
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:latest
     container-network: shiny_monitor_net
     container-env-file: /run/secrets/DB_CONFIG
-  - id: shiny_app_pinval_staging
+  - id: pinval_staging
     display-name: PIN Valuation Report (PINVAL) (Staging)
     description: Generate a report on the valuation of an individual PIN (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
@@ -43,14 +43,14 @@ proxy:
     access-groups: DATASCIENCEGROUP
 
     # Configuration for township diagnostic
-  - id: shiny_app_township_diagnostic
+  - id: township_diagnostic
     display-name: Township Diagnostic Report
     description: Create a report on the valuation of a township
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:latest
     container-network: shiny_server_net
     container-env-file: /run/secrets/DB_CONFIG
-  - id: shiny_app_township_diagnostic_staging
+  - id: township_diagnostic_staging
     display-name: Township Diagnostic Report (Staging)
     description: Create a report on the valuation of a township (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
@@ -60,14 +60,14 @@ proxy:
     access-groups: DATASCIENCEGROUP
 
     # Configuration for IC version of PINVAL
-  - id: shiny_app_ic_pinval
+  - id: ic_pinval
     display-name: IC PINVAL Report
     description: Provides RPIE filing information for IC PINs
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:latest
     container-network: shiny_server_net
     container-env-file: /run/secrets/DB_CONFIG
-  - id: shiny_app_ic_pinval_staging
+  - id: ic_pinval_staging
     display-name: IC PINVAL Report (Staging)
     description: Provides RPIE filing information for IC PINs (testing version)
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
@@ -94,7 +94,7 @@ proxy:
     access-groups: DATASCIENCEGROUP
 
     # Configuration for RPIE app
-  - id: shiny_app_rpie
+  - id: rpie
     display-name: RPIE Report (Alpha)
     description: Fetch the RPIE code for a given PIN
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]

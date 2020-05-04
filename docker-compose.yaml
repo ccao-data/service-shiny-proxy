@@ -14,7 +14,7 @@ services:
   # Shinyproxy handles the launching of containers
   shinyproxy:
     build: .
-    image: ${CCAO_REGISTRY_URL}/shiny_server:latest
+    image: ${CCAO_REGISTRY_URL}/services/shiny_server:latest
     container_name: shiny_server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -56,31 +56,31 @@ services:
   # x-default defines properties that are copied to each slug
   shiny_app_pinval_production:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:latest
+    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_pinval:latest
   shiny_app_pinval_staging:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/shiny_app_pinval:staging
+    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_pinval:staging
   shiny_app_township_diagnostic:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:latest
+    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_township_diagnostic:latest
   shiny_app_township_diagnostic_staging:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/shiny_app_township_diagnostic:staging
+    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_township_diagnostic:staging
   shiny_app_ic_pinval:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:latest
+    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:latest
   shiny_app_ic_pinval_staging:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/shiny_app_ic_pinval:staging
+    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:staging
   app_data_integrity_report:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/app_data_integrity_report:latest
+    image: ${CCAO_REGISTRY_URL}/applications/app_data_integrity_report:latest
   app_data_integrity_report_staging:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/app_data_integrity_report:staging
+    image: ${CCAO_REGISTRY_URL}/applications/app_data_integrity_report:staging
   shiny_app_rpie:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/shiny_app_rpie:latest
+    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_rpie:latest
 
 # Define network to be shared between containers
 # Subnet is changed so as not to conflict with the CCAO default network

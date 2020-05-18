@@ -33,25 +33,6 @@ services:
       - DB_CONFIG
       - DC_CERT
 
-  # Watchtower constantly scans CCAO registry and pull new images when found
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./secrets/config.json:/config.json
-    networks:
-      - proxynet
-    environment:
-      - WATCHTOWER_INCLUDE_STOPPED=true
-      - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_MONITOR_ONLY=true
-      - WATCHTOWER_NO_RESTART=true
-      - WATCHTOWER_LABEL_ENABLE=true
-      - WATCHTOWER_POLL_INTERVAL=120
-    restart: always
-
-
   # Fake app slugs to ensure that shinyproxy always has an image to run
   # x-default defines properties that are copied to each slug
   shiny_app_pinval_production:

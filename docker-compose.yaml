@@ -53,12 +53,6 @@ services:
   shiny_app_ic_pinval_staging:
     <<: *default
     image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:staging
-  app_data_integrity_report:
-    <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/app_data_integrity_report:latest
-  app_data_integrity_report_staging:
-    <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/app_data_integrity_report:staging
   shiny_app_rpie:
     <<: *default
     image: ${CCAO_REGISTRY_URL}/applications/shiny_app_rpie:latest

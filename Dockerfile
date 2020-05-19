@@ -19,7 +19,6 @@ COPY . ${WORKDIR}
 # Build arguments used to label the container, these variables are predefined
 # as part of GitLab. They get passed to the container as build-args in the
 # .gitlab-ci.yml file. These arguments only exist when building the container
-ARG BUILD_DATE
 ARG VCS_NAME
 ARG VCS_URL
 ARG VCS_REF
@@ -32,20 +31,19 @@ ARG VCS_NAMESPACE
 # exist inside each app and can be called from R. They are used to create a
 # version number in the application UI as well as link to the GitLab
 # Service Desk
-ENV VCS_NAME=$VCS_NAME \
-    VCS_URL=$VCS_URL \
-    VCS_REF=$VCS_REF \
-    VCS_REF_SHORT=$VCS_REF_SHORT \
-    VCS_VER=$VCS_VER \
-    VCS_ID=$VCS_ID \
-    VCS_NAMESPACE=$VCS_NAMESPACE
+ENV VCS_NAME=$VCS_NAME
+ENV VCS_URL=$VCS_URL
+ENV VCS_REF=$VCS_REF
+ENV VCS_REF_SHORT=$VCS_REF_SHORT
+ENV VCS_VER=$VCS_VER
+ENV VCS_ID=$VCS_ID
+ENV VCS_NAMESPACE=$VCS_NAMESPACE
 
 # Create labels for the container. These are standardized labels defined by
 # label-schema.org. Many applications look for these labels in order to display
 # information about a container
 LABEL maintainer "Dan Snow <dsnow@cookcountyassessor.com>"
 LABEL com.centurylinklabs.watchtower.enable="true"
-LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.title=$VCS_NAME
 LABEL org.opencontainers.image.source=$VCS_URL
 LABEL org.opencontainers.image.revision=$VCS_REF

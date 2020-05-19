@@ -41,8 +41,6 @@ build:
   stage: build
   only:
     - master
-    - staging
-    - tags
   script:
     - docker pull $CI_REGISTRY_IMAGE:build-cache || true
     - >
@@ -51,7 +49,6 @@ build:
       --cache-from $CI_REGISTRY_IMAGE:build-cache
       --tag $CI_REGISTRY_IMAGE:build-cache
       --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-      --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
       --build-arg VCS_NAME=$CI_PROJECT_NAME
       --build-arg VCS_URL=$CI_PROJECT_URL
       --build-arg VCS_REF=$CI_COMMIT_SHA
@@ -70,23 +67,16 @@ build:
 # with either latest, staging, or the git tag, and then push it back to the
 # container registry. We pull first because we have no guarentee that the same
 # runner will pick up both the build stage and this push stage
-# CCAO uses 3 major sets of container tags:
-# 1) master branch = latest. This is used to denote the production version of
-# the application
-# 2) staging branch = staging. This is used for testing. Major changes are
-# pushed here before begin pushed to latest
-# 3) git tags = specific version. If a commit is tagged (with something like
-# a release #) this will be reflected as a Docker tag
 
 # Here, the goal is to tag the "master" branch as "latest"
-push production:
+push:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
     GIT_STRATEGY: none
   stage: push
   environment:
     name: production
-    url: http://$SHINY_SERVER_URL:$SHINY_SERVER_PORT
+    url: $SHINY_SERVER_URL
   only:
     - master
   script:

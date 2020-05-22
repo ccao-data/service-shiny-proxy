@@ -18,7 +18,7 @@ proxy:
   # LDAP authentication for CCAO AD servers
   ldap:
     url: ldaps://CCAODC02.ccao.local:3269/dc=ccao,dc=local
-    manager-dn: CN=${LDAPS_USER},OU=CCAO Employees,DC=ccao,DC=local
+    manager-dn: CN=${LDAPS_USER},OU=Service Accounts,DC=ccao,DC=local
     manager-password: ${LDAPS_PASSWORD}
     user-search-base: OU=CCAO Employees
     user-search-filter: (sAMAccountName={0})

@@ -41,12 +41,6 @@ services:
   shiny_app_pinval_staging:
     <<: *default
     image: ${CCAO_REGISTRY_URL}/applications/shiny_app_pinval:staging
-  shiny_app_township_diagnostic:
-    <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_township_diagnostic:latest
-  shiny_app_township_diagnostic_staging:
-    <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_township_diagnostic:staging
   shiny_app_ic_pinval:
     <<: *default
     image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:latest

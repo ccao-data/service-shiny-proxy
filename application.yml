@@ -43,23 +43,6 @@ proxy:
     container-env-file: /run/secrets/DB_CONFIG
     access-groups: DATASCIENCEGROUP
 
-    # Configuration for township diagnostic
-  - id: township_diagnostic
-    display-name: Township Diagnostic Report
-    description: Create a report on the valuation of a township
-    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
-    container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_township_diagnostic:latest
-    container-network: shiny_server_net
-    container-env-file: /run/secrets/DB_CONFIG
-  - id: township_diagnostic_staging
-    display-name: Township Diagnostic Report (Staging)
-    description: Create a report on the valuation of a township (testing version)
-    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
-    container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_township_diagnostic:staging
-    container-network: shiny_server_net
-    container-env-file: /run/secrets/DB_CONFIG
-    access-groups: DATASCIENCEGROUP
-
     # Configuration for IC version of PINVAL
   - id: ic_pinval
     display-name: IC PINVAL Report

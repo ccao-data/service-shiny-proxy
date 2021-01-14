@@ -62,7 +62,7 @@ proxy:
 
     # Configuration for RPIE app
   - id: rpie
-    display-name: RPIE Report (Alpha)
+    display-name: RPIE Code Retrieval
     description: Fetch the RPIE code for a given PIN
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_rpie:latest

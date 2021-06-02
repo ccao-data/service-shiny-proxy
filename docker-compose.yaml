@@ -38,6 +38,12 @@ services:
   shiny_app_rpie:
     <<: *default
     image: ${CCAO_REGISTRY_URL}/applications/shiny_app_rpie:latest
+  shiny_app_ic_pinval:
+    <<: *default
+    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:latest
+  shiny_app_ic_pinval_staging:
+    <<: *default
+    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:staging
 
 # Define network to be shared between containers
 # Subnet is changed so as not to conflict with the CCAO default network

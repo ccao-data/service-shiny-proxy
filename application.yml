@@ -33,3 +33,20 @@ proxy:
     container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_rpie:latest
     container-network: shiny_server_net
     container-env-file: /run/secrets/DB_CONFIG
+
+    # Configuration for IC version of PINVAL
+  - id: ic_pinval
+    display-name: IC PINVAL Report
+    description: Provides RPIE filing information for IC PINs
+    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
+    container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:latest
+    container-network: shiny_server_net
+    container-env-file: /run/secrets/DB_CONFIG
+  - id: ic_pinval_staging
+    display-name: IC PINVAL Report (Staging)
+    description: Provides RPIE filing information for IC PINs (testing version)
+    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
+    container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:staging
+    container-network: shiny_server_net
+    container-env-file: /run/secrets/DB_CONFIG
+

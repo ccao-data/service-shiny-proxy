@@ -28,7 +28,7 @@ The server has the following general structure:
 |  |                               |                    |      |                       |
 |  |                               +-------------------------->+   External Website    |
 |  |  ShinyProxy Docker Container  |                    |      |                       |
-|  |                               +<--------------------------+   10.124.101.1:8080   |
+|  |                               +<--------------------------+  10.129.122.29:8080   |
 |  |                               |                    |      |                       |
 |  +-------------------------------+                    |      +------+------+-----+---+
 |                           ||                          |             |      |     |
@@ -61,9 +61,8 @@ shiny_server/         # Top-level dir for hosting ShinyProxy config files
 ├ .env                # File containing environmental variables used in docker-compose.yaml
 ├ README.md
 └ secrets             # Folder that must be manually created after cloning, contains login credentials
-    ├ config.json     # Docker login credentials for watching GitLab repo for updates to branches
-    ├ CCAOAPPSRV.txt  # ODBC server credentials for RPIE, formatted as a connection string
-    └ CCAODATA.txt    # ODBC server credentials for CCAODATA, formatted as a connection string
+    ├ DB_CONFIG       # Text file containing ODBC connection strings passed as env variables 
+    └ DC_CERT         # Public cert for authing with LDAPS 
 ```
 
 Configuration of the server is split into two parts:

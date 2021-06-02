@@ -3,12 +3,11 @@ FROM openjdk:8-jre
 
 # Set working directory for the entire application
 ENV WORKDIR=/opt/shinyproxy
-RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 ENTRYPOINT "${WORKDIR}/entrypoint.sh"
 
 # Download the shinyproxy JAR file
-RUN wget --no-verbose https://www.shinyproxy.io/downloads/shinyproxy-2.3.1.jar -O ${WORKDIR}/shinyproxy.jar
+RUN wget --no-verbose https://www.shinyproxy.io/downloads/shinyproxy-2.5.0.jar -O ${WORKDIR}/shinyproxy.jar
 
 # Copy app code into the working dir
 COPY . ${WORKDIR}

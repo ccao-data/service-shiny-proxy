@@ -8,57 +8,22 @@ proxy:
   title: Data Science Application Server
   logo-url: file:///${WORKDIR}/favicon.png
   port: 8080
-  authentication: ldap
+  authentication: none
   heartbeat-rate: 60000
   heartbeat-timeout: 600000
-  admin-groups: DATASCIENCEGROUP
   docker:
     internal-networking: true
 
-  # LDAP authentication for CCAO AD servers
-  ldap:
-    url: ldaps://CCAODC02.ccao.local:3269/dc=ccao,dc=local
-    manager-dn: CN=${LDAPS_USER},OU=Service Accounts,DC=ccao,DC=local
-    manager-password: ${LDAPS_PASSWORD}
-    user-search-base: OU=CCAO Employees
-    user-search-filter: (sAMAccountName={0})
-    group-search-base: CN=Users
-    group-search-filter: (member={0})
-
   specs:
-    # Configuration for PINVAL
-  - id: pinval
-    display-name: PIN Valuation Report (PINVAL)
-    description: Generate a report on the valuation of an individual PIN
-    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
-    container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_pinval:latest
-    container-network: shiny_monitor_net
-    container-env-file: /run/secrets/DB_CONFIG
-  - id: pinval_staging
-    display-name: PIN Valuation Report (PINVAL) (Staging)
-    description: Generate a report on the valuation of an individual PIN (testing version)
-    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
-    container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_pinval:staging
-    container-network: shiny_monitor_net
-    container-env-file: /run/secrets/DB_CONFIG
-    access-groups: DATASCIENCEGROUP
 
-    # Configuration for IC version of PINVAL
-  - id: ic_pinval
-    display-name: IC PINVAL Report
-    description: Provides RPIE filing information for IC PINs
-    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
-    container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:latest
+    # RPIE dashboard config
+  - id: rpie_dashboard
+    display-name: RPIE Dashboard 
+    description: Get aggregate information about RPIE filings 
+    container-cmd: ["R", "--no-environ", "-e", "rmarkdown::run('dashboard.Rmd')"]
+    container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_rpie_dashboard:latest
     container-network: shiny_server_net
     container-env-file: /run/secrets/DB_CONFIG
-  - id: ic_pinval_staging
-    display-name: IC PINVAL Report (Staging)
-    description: Provides RPIE filing information for IC PINs (testing version)
-    container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
-    container-image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:staging
-    container-network: shiny_server_net
-    container-env-file: /run/secrets/DB_CONFIG
-    access-groups: DATASCIENCEGROUP
 
     # Configuration for RPIE app
   - id: rpie

@@ -22,12 +22,9 @@ services:
       - "8080:8080"
     networks:
       - proxynet
-      - shiny_monitor_net
     # Environmental variables are loaded from .env file
     environment:
       - CCAO_REGISTRY_URL
-      - LDAPS_USER
-      - LDAPS_PASSWORD
       - JAVA_TRUST_STORE_PASSWORD
     secrets:
       - DB_CONFIG
@@ -35,18 +32,9 @@ services:
 
   # Fake app slugs to ensure that shinyproxy always has an image to run
   # x-default defines properties that are copied to each slug
-  shiny_app_pinval_production:
+  shiny_app_rpie_dashboard:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_pinval:latest
-  shiny_app_pinval_staging:
-    <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_pinval:staging
-  shiny_app_ic_pinval:
-    <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:latest
-  shiny_app_ic_pinval_staging:
-    <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:staging
+    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_rpie_dashboard:latest
   shiny_app_rpie:
     <<: *default
     image: ${CCAO_REGISTRY_URL}/applications/shiny_app_rpie:latest
@@ -61,8 +49,6 @@ networks:
       config:
         - subnet: 192.27.0.0/16
     name: shiny_server_net
-  shiny_monitor_net:
-    external: true
 
 # Database credential files that get shared to individual containers
 secrets:

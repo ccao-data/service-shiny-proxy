@@ -53,7 +53,7 @@ networks:
   proxynet:
     ipam:
       config:
-        - subnet: 192.27.0.0/16
+        - subnet: 211.27.0.0/16
     name: shiny_server_net
 
 # Database credential files that get shared to individual containers

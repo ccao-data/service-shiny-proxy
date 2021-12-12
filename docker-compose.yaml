@@ -29,6 +29,7 @@ services:
     secrets:
       - DB_CONFIG
       - DC_CERT
+    restart: unless-stopped
 
   # Fake app slugs to ensure that shinyproxy always has an image to run
   # x-default defines properties that are copied to each slug

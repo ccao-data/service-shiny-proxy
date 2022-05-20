@@ -18,7 +18,6 @@ services:
     container_name: shiny_server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./secrets/.aws:/root/.aws
     ports:
       - "8080:8080"
     networks:
@@ -26,10 +25,8 @@ services:
     # Environmental variables are loaded from .env file
     environment:
       - CCAO_REGISTRY_URL
-      - JAVA_TRUST_STORE_PASSWORD
     secrets:
-      - DB_CONFIG
-      - DC_CERT
+      - ENV_FILE
     restart: unless-stopped
 
   # Fake app slugs to ensure that shinyproxy always has an image to run
@@ -60,7 +57,5 @@ networks:
 
 # Database credential files that get shared to individual containers
 secrets:
-  DB_CONFIG:
-    file: secrets/DB_CONFIG
-  DC_CERT:
-    file: secrets/DC_CERT
+  ENV_FILE:
+    file: secrets/ENV_FILE

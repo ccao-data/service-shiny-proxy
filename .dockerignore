@@ -1,5 +1,4 @@
 secrets/
 .git/
 .env
-.gitlab-ci.yml
 .dockerignore

@@ -7,7 +7,7 @@ WORKDIR ${WORKDIR}
 ENTRYPOINT "${WORKDIR}/entrypoint.sh"
 
 # Download the shinyproxy JAR file
-RUN wget --no-verbose https://www.shinyproxy.io/downloads/shinyproxy-2.5.0.jar -O ${WORKDIR}/shinyproxy.jar
+RUN wget --no-verbose https://shinyproxy.io/downloads/shinyproxy-3.0.1.jar -O ${WORKDIR}/shinyproxy.jar
 
 # Copy app code into the working dir
 COPY . ${WORKDIR}
@@ -41,7 +41,7 @@ ENV VCS_NAMESPACE=$VCS_NAMESPACE
 # Create labels for the container. These are standardized labels defined by
 # label-schema.org. Many applications look for these labels in order to display
 # information about a container
-LABEL maintainer "Dan Snow <dsnow@cookcountyassessor.com>"
+LABEL maintainer "Dan Snow <daniel.snow@cookcountyil.gov>"
 LABEL com.centurylinklabs.watchtower.enable="true"
 LABEL org.opencontainers.image.title=$VCS_NAME
 LABEL org.opencontainers.image.source=$VCS_URL

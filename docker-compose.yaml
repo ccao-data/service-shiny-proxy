@@ -14,8 +14,8 @@ services:
   # Shinyproxy handles the launching of containers
   shinyproxy:
     build: .
-    image: ${CCAO_REGISTRY_URL}/services/shiny_server:latest
-    container_name: shiny_server
+    image: ghcr.io/ccao-data/service-shiny-proxy:latest
+    container_name: service-shiny-proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -46,14 +46,12 @@ services:
 
 # Define network to be shared between containers
 # Subnet is changed so as not to conflict with the CCAO default network
-# shiny_monitor_net is imported from the shiny_monitor app. It connects to that
-# app's postgres DB for the purpose of tracking entered PINs
 networks:
   proxynet:
     ipam:
       config:
         - subnet: 211.27.0.0/16
-    name: shiny_server_net
+    name: service-shiny-proxy-net
 
 # Database credential files that get shared to individual containers
 secrets:

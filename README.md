@@ -1,4 +1,3 @@
-
 # Data Department Application Server Backend
 
 This repository hosts the Docker and config files that run the CCAO's application server backend. We use a free, open source package called [ShinyProxy](https://www.shinyproxy.io/) to deploy containerized applications using Docker.
@@ -54,7 +53,7 @@ The server has the following general structure:
 Files in this directory have the following structure and functions:
 
 ```
-shiny_server/         # Top-level dir for hosting ShinyProxy config files
+service-shiny-proxy/  # Top-level dir for hosting ShinyProxy config files
 ├ application.yml     # Configures the actual ShinyProxy app, which apps to launch, logins, etc.
 ├ docker-compose.yaml # Launches ShinyProxy with the necessary Docker config options/secrets
 ├ Dockerfile          # Builds the environment and container dependencies for running ShinyProxy

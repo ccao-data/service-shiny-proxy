@@ -1,5 +1,5 @@
 
-# Data Science Application Server Backend
+# Data Department Application Server Backend
 
 This repository hosts the Docker and config files that run the CCAO's application server backend. We use a free, open source package called [ShinyProxy](https://www.shinyproxy.io/) to deploy containerized applications using Docker.
 
@@ -61,8 +61,7 @@ shiny_server/         # Top-level dir for hosting ShinyProxy config files
 ├ .env                # File containing environmental variables used in docker-compose.yaml
 ├ README.md
 └ secrets             # Folder that must be manually created after cloning, contains login credentials
-    ├ DB_CONFIG       # Text file containing ODBC connection strings passed as env variables 
-    └ DC_CERT         # Public cert for authing with LDAPS 
+    └ ENV_FILE        # Text file containing ODBC connection strings passed as env variables
 ```
 
 Configuration of the server is split into two parts:
@@ -73,7 +72,7 @@ Part 1 builds the container and environment necessary to run ShinyProxy. This in
 
 ### Part 2
 
-Part 2 specifies the actual configuration options for ShinyProxy. All ShinyProxy configuration is handled via editing the included `application.yml` file. ShinyProxy allows configuration of the name of the server, the apps it launches, and various login options. For a full list of ShinyProxy configuration options, see [here](https://www.shinyproxy.io/configuration/).
+Part 2 specifies the actual configuration options for ShinyProxy. All ShinyProxy configuration is handled via editing the included `application.yml` file. ShinyProxy allows configuration of the name of the server, the apps it launches, and various login options. For a full list of ShinyProxy configuration options, see [here](https://www.shinyproxy.io/documentation/configuration/).
 
 ## Starting the Server
 

@@ -18,21 +18,21 @@ proxy:
 
   specs:
 
-    # RPIE dashboard config
-  - id: rpie_dashboard
-    display-name: RPIE Dashboard 
-    description: Get aggregate information about RPIE filings 
-    container-cmd: ["R", "--no-environ", "-e", "rmarkdown::run('dashboard.Rmd')"]
-    container-image: ${CCAO_REGISTRY_URL}/app-shiny-rpie-dashboard:latest
-    container-network: service-shiny-proxy-net
-    container-env-file: /run/secrets/ENV_FILE
-
     # Configuration for RPIE app
   - id: rpie
     display-name: RPIE Code Retrieval
     description: Fetch the RPIE code for a given PIN
     container-cmd: ["R", "-e", "shiny::runApp('/app/app.R')"]
     container-image: ${CCAO_REGISTRY_URL}/app-shiny-rpie:latest
+    container-network: service-shiny-proxy-net
+    container-env-file: /run/secrets/ENV_FILE
+
+    # RPIE dashboard config
+  - id: rpie_dashboard
+    display-name: RPIE Dashboard 
+    description: Get aggregate information about RPIE filings 
+    container-cmd: ["R", "--no-environ", "-e", "rmarkdown::run('dashboard.Rmd')"]
+    container-image: ${CCAO_REGISTRY_URL}/app-shiny-rpie-dashboard:latest
     container-network: service-shiny-proxy-net
     container-env-file: /run/secrets/ENV_FILE
 

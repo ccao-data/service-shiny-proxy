@@ -3,6 +3,8 @@ server:
   contextPath: /shiny
   servlet:
     context-path: /shiny
+  secure-cookies: true
+  frame-options: sameorigin
 
 proxy:
   title: Data Science Application Server

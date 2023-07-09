@@ -25,24 +25,19 @@ services:
     # Environmental variables are loaded from .env file
     environment:
       - CCAO_REGISTRY_URL
+      - REDIS_PASSWORD
     secrets:
       - ENV_FILE
     restart: unless-stopped
 
   # Fake app slugs to ensure that shinyproxy always has an image to run
   # x-default defines properties that are copied to each slug
-  shiny_app_rpie_dashboard:
+  app-shiny-rpie:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_rpie_dashboard:latest
-  shiny_app_rpie:
+    image: ${CCAO_REGISTRY_URL}/app-shiny-rpie:latest
+  app-shiny-rpie-dashboard:
     <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_rpie:latest
-  shiny_app_ic_pinval:
-    <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:latest
-  shiny_app_ic_pinval_staging:
-    <<: *default
-    image: ${CCAO_REGISTRY_URL}/applications/shiny_app_ic_pinval:staging
+    image: ${CCAO_REGISTRY_URL}/app-shiny-rpie-dashboard:latest
 
 # Define network to be shared between containers
 # Subnet is changed so as not to conflict with the CCAO default network

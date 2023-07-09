@@ -11,8 +11,6 @@ proxy:
   logo-url: file:///${WORKDIR}/favicon.png
   port: 8080
   authentication: none
-  heartbeat-rate: 60000
-  heartbeat-timeout: 600000
   docker:
     internal-networking: true
 

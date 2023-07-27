@@ -7,7 +7,7 @@ WORKDIR ${WORKDIR}
 ENTRYPOINT "${WORKDIR}/entrypoint.sh"
 
 # Download the shinyproxy JAR file
-RUN wget --no-verbose https://shinyproxy.io/downloads/shinyproxy-3.0.1.jar -O ${WORKDIR}/shinyproxy.jar
+RUN wget --no-verbose https://github.com/openanalytics/shinyproxy/releases/download/v3.0.2/shinyproxy-3.0.2-exec.jar -O ${WORKDIR}/shinyproxy.jar
 
 # Copy app code into the working dir
 COPY . ${WORKDIR}
